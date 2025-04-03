@@ -10,4 +10,4 @@ npm install
 
 //How to run the development server
 npm start   
-Open your browser and go to http://localhost:5173/ to see the app in action.
+vOpen your browser and go to http://localhost:5173/ to see the app in action.
