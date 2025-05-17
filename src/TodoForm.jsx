@@ -1,11 +1,8 @@
-
 import { useState } from "react";
-
- 
 
 function TodoForm({onAddTodo}){
     const [workingTodoTitle, setWorkingTodoTitle] = useState(" ");
- 
+    
     function handleAddTodo(title){
         onAddTodo(title);
         setWorkingTodoTitle("");
