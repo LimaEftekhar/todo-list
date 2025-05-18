@@ -43,7 +43,7 @@ function App() {
           return todo;
         });
 
-        setIsLoading(todos);
+        setTodoList(todos);
         setErrorMessage('');
       } catch (error) {
         setErrorMessage(error.message);

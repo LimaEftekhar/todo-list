@@ -4,6 +4,7 @@ import TextInputWithLabel from "../shared/TextInputWithLabel.jsx";
 function TodoForm({onAddTodo, isSaving}){
     const [workingTodoTitle, setWorkingTodoTitle] = useState("");
     const inputRef = useRef(null); 
+    const isButtonDisabled = isSaving || workingTodoTitle === '';
  
     async function handleAddTodo(title){
       const newTodo = {
@@ -19,7 +20,7 @@ function TodoForm({onAddTodo, isSaving}){
     return(
         <form onSubmit={async(e) => {e.preventDefault(); await handleAddTodo(workingTodoTitle);}} action="">
             <TextInputWithLabel ref={inputRef} value={workingTodoTitle} onChange={ (e) => setWorkingTodoTitle(e.target.value)} elementId="todoTitle" labelText="Todo" />
-            <button type="submit" disabled={isSaving}>{isSaving ? 'Saving ...': 'Add Todo'}</button>
+            <button type="submit" disabled={isButtonDisabled}>{isSaving ? 'Saving ...': 'Add Todo'}</button>
         </form>
     )
 }
