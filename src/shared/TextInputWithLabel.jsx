@@ -1,4 +1,3 @@
-{/*extract from TextInputWithLabel.jsx*/}
 function TextInputWithLabel ({elementId, label, onChange, inputRef, value}){
 
     return(
@@ -7,9 +6,6 @@ function TextInputWithLabel ({elementId, label, onChange, inputRef, value}){
             <input type="text" id={elementId} ref={inputRef} value={value} onChange={onChange}/> 
         </>
 );
-
-
-
 }
 
 export default TextInputWithLabel
