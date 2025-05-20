@@ -17,9 +17,14 @@ function TodosViewForm ({sortDirection, setSortDirection, sortField, setSortFiel
 
             <form action="" onSubmit={preventRefresh} >
                 <label htmlFor="view">Sort by</label>
-                <select name="" id="view" onChange={ (e) => setSortField (e.target.value)} value= {sortField}>
+                <select name="" id="view" value= {sortField} onChange={ (e) => setSortField (e.target.value)}>
                     <option value="title">Title</option>
                     <option value="createdTime">Time added</option>
+                </select>
+                <label htmlFor="order">Direction</label>
+                <select name="" id="order" value={sortDirection} onChange={ (e) => setSortDirection (e.target.value)}>
+                    <option value="asc">Ascending</option>
+                    <option value="desc">Descending</option>
                 </select>
             </form>
         </div>
