@@ -1,18 +1,28 @@
+import { useEffect, useState } from "react";
 
 function TodosViewForm ({sortDirection, setSortDirection, sortField, setSortField, queryString, setQueryString  }){
+    const [localQueryString, setLocalQueryString] = useState(queryString);
     function preventRefresh(event){
         event.preventDefault();
     }
+    useEffect (() =>{
+        const debounce = setTimeout (() => {
+            setQueryString(localQueryString);
+
+        }, 500);
+        return () => {
+        clearTimeout (debounce);
+        };
+    },[localQueryString, setQueryString]);
 
     return(
-        
         <div>
             <div>
             <label htmlFor="search">Search todos:</label>
             <input id="search" type="text"
-            value={queryString}
-            onChange={(e) => setQueryString(e.target.value)} />
-            <button type="button" onClick={ () => setQueryString('') }>Clear</button>
+            value={localQueryString}
+            onChange={(e) => setLocalQueryString(e.target.value)} />
+            <button type="button" onClick={ () => setLocalQueryString('') }>Clear</button>
             </div>
 
             <form action="" onSubmit={preventRefresh} >
