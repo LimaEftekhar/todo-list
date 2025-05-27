@@ -21,6 +21,7 @@ function TodoForm({onAddTodo, isSaving}){
     const StyledButton = styled.button`
         padding: 6px;
         border: none;
+        font-style: ${props => props.disabled ? 'italic' : 'normal'};
     `;
 
     
