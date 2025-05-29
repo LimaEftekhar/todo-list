@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import styled from 'styled-components'
 
 function TodosViewForm ({sortDirection, setSortDirection, sortField, setSortField, queryString, setQueryString  }){
     const [localQueryString, setLocalQueryString] = useState(queryString);
@@ -15,27 +16,58 @@ function TodosViewForm ({sortDirection, setSortDirection, sortField, setSortFiel
         };
     },[localQueryString, setQueryString]);
 
+
+    //Style
+    const StyledInput = styled.input`
+        padding: 5px;
+        border: 1px solid var(--primary-color);
+        width: 150px;
+    `;
+
+    const StyledButton = styled.button`
+        padding: 6px;
+        width: 60px;
+        border: none;
+    
+    `;
+
+    const StyledLabel = styled.label`
+        padding: 5px;
+        margin-right: 5px;
+    `;
+
+    const StyledSelect = styled.select`
+        padding: 2px;
+        border: 1px solid var(--primary-color);
+        background-color: var(--bg-color);
+        color: var(--text-color)
+    `;
+
+    const StyledDiv = styled.div`
+        margin-bottom: 15px;
+    `;
+
     return(
         <div>
-            <div>
-            <label htmlFor="search">Search todos:</label>
-            <input id="search" type="text"
+            <StyledDiv>
+            <StyledLabel htmlFor="search">Search todos:</StyledLabel>
+            <StyledInput id="search" type="text"
             value={localQueryString}
             onChange={(e) => setLocalQueryString(e.target.value)} />
-            <button type="button" onClick={ () => setLocalQueryString('') }>Clear</button>
-            </div>
+            <StyledButton type="button" onClick={ () => setLocalQueryString('') }>Clear</StyledButton>
+            </StyledDiv>
 
             <form action="" onSubmit={preventRefresh} >
-                <label htmlFor="view">Sort by</label>
-                <select name="" id="view" value= {sortField} onChange={ (e) => setSortField (e.target.value)}>
+                <StyledLabel htmlFor="view">Sort by</StyledLabel>
+                <StyledSelect name="" id="view" value= {sortField} onChange={ (e) => setSortField (e.target.value)}>
                     <option value="title">Title</option>
                     <option value="createdTime">Time added</option>
-                </select>
-                <label htmlFor="order">Direction</label>
-                <select name="" id="order" value={sortDirection} onChange={ (e) => setSortDirection (e.target.value)}>
+                </StyledSelect>
+                <StyledLabel htmlFor="order">Direction</StyledLabel>
+                <StyledSelect name="" id="order" value={sortDirection} onChange={ (e) => setSortDirection (e.target.value)}>
                     <option value="asc">Ascending</option>
                     <option value="desc">Descending</option>
-                </select>
+                </StyledSelect>
             </form>
         </div>
     )

@@ -1,0 +1,27 @@
+
+:root {
+  --primary-color: #5E376D;
+  --text-color: #F6E6E8;
+  --bg-color: #000000;
+}
+
+body{
+    font-family: 'Arial', Helvetica, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+h1, h2, h3, h4, h5, h6{
+    font-family: 'Georgia', 'Times New Roman', Times, serif;
+}
+
+button, li{
+    background-color: var(--primary-color);
+}
+button{
+    color: var(--text-color);
+}
+
+input{
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
