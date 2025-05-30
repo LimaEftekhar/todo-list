@@ -1,21 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from 'styled-components'
 
-function TodosViewForm ({sortDirection, setSortDirection, sortField, setSortField, queryString, setQueryString  }){
-    const [localQueryString, setLocalQueryString] = useState(queryString);
-    function preventRefresh(event){
-        event.preventDefault();
-    }
-    useEffect (() =>{
-        const debounce = setTimeout (() => {
-            setQueryString(localQueryString);
-
-        }, 500);
-        return () => {
-        clearTimeout (debounce);
-        };
-    },[localQueryString, setQueryString]);
-
 
     //Style
     const StyledInput = styled.input`
@@ -46,6 +31,21 @@ function TodosViewForm ({sortDirection, setSortDirection, sortField, setSortFiel
     const StyledDiv = styled.div`
         margin-bottom: 15px;
     `;
+//End of style
+function TodosViewForm ({sortDirection, setSortDirection, sortField, setSortField, queryString, setQueryString  }){
+    const [localQueryString, setLocalQueryString] = useState(queryString);
+    function preventRefresh(event){
+        event.preventDefault();
+    }
+    useEffect (() =>{
+        const debounce = setTimeout (() => {
+            setQueryString(localQueryString);
+
+        }, 500);
+        return () => {
+        clearTimeout (debounce);
+        };
+    },[localQueryString, setQueryString]);
 
     return(
         <div>
