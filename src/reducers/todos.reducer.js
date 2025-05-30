@@ -24,14 +24,29 @@ function reducer(state = initialState, action) {
     case actions.fetchTodos:
       return {
         ...state,
+        isLoading: true,
       };
     case actions.loadTodos:
       return {
         ...state,
+        todoList: action.records.map((record)=>{
+          const todo = {
+            id: record.id,
+            ...record.fields,
+          };
+          if (!todo.isCompleted) {
+            todo.isCompleted = false;
+          }
+          return todo;
+        }),
+        isLoading: false,
       };
+//setLoadError
     case actions.setLoadError:
         return{
             ...state,
+            errorMessage: action.error.message,
+            isLoading: false,
         };
     case actions.startRequest:
         return{
@@ -45,21 +60,37 @@ function reducer(state = initialState, action) {
         return{
             ...state,
         };
-    case actions.updateTodo:
-        return{
-            ...state,
-        };
-    case actions.completeTodo:
-        return{
-            ...state,
-        };
     case actions.revertTodo:
-        return{
-            ...state,
-        };
+// fall through to updateTodo //updateTodo
+    case actions.updateTodo:{
+              
+            const updatedTodos = state.todoList.map((todo) =>
+            todo.id === action.editedTodo.id ? action.editedTodo : todo
+            );
+
+            const updatedState = {
+                ...state,
+                todoList: updatedTodos, 
+            };
+        if(action.error){
+            updatedState.errorMessage = action.error.message;
+        }
+      return updatedState;
+    }
+//completeTodo
+    case actions.completeTodo:{
+            const updatedTodos = state.todoList.map((todo) =>
+            todo.id === action.id ? { ...todo, isCompleted: true } : todo
+            );
+            return{
+                ...state,
+                todoList: updatedTodos, 
+            };
+        }
     case actions.clearError:
         return{
             ...state,
+            errorMessage: '',
         };
   }
 }
