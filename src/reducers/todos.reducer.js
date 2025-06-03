@@ -21,11 +21,13 @@ export const actions = {
 //Create Reducer
 function reducer(state = initialState, action) {
   switch (action.type) {
+//fetchTodos
     case actions.fetchTodos:
       return {
         ...state,
         isLoading: true,
       };
+//loadTodos
     case actions.loadTodos:
       return {
         ...state,
@@ -45,27 +47,56 @@ function reducer(state = initialState, action) {
     case actions.setLoadError:
         return{
             ...state,
-            errorMessage: action.error.message,
+            errorMessage: action.payload,
             isLoading: false,
+            isSaving: false,
         };
+//startRequest
     case actions.startRequest:
         return{
             ...state,
+            isSaving: true,
         };
-    case actions.addTodo:
-        return{
-            ...state,
+//addTodo
+    case actions.addTodo:{
+        const record = action.payload[0];
+        const savedTodo = {
+        id: record.id,
+        ...record.fields,
         };
+        if (!savedTodo.isCompleted) {
+        savedTodo.isCompleted = false;
+         }
+
+        return {
+        ...state,
+        todoList: [...state.todoList, savedTodo],
+        isSaving: false,
+        };
+    }
+//endRequest
     case actions.endRequest:
         return{
             ...state,
+            isLoading: false,
+            isSaving: false,
         };
-    case actions.revertTodo:
+//revertTodo
+    case actions.revertTodo:{
+      const updatedTodos = state.todoList.map((todo) =>
+        todo.id === action.payload.id ? action.payload : todo
+      );
+
+      return {
+        ...state,
+        todoList: updatedTodos,
+      };
+    }
 // fall through to updateTodo //updateTodo
     case actions.updateTodo:{
               
             const updatedTodos = state.todoList.map((todo) =>
-            todo.id === action.editedTodo.id ? action.editedTodo : todo
+            todo.id === action.payload.id ? action.payload : todo
             );
 
             const updatedState = {
@@ -80,13 +111,14 @@ function reducer(state = initialState, action) {
 //completeTodo
     case actions.completeTodo:{
             const updatedTodos = state.todoList.map((todo) =>
-            todo.id === action.id ? { ...todo, isCompleted: true } : todo
+            todo.id === action.payload.id ? { ...todo, isCompleted: true } : todo
             );
             return{
                 ...state,
                 todoList: updatedTodos, 
             };
         }
+//clearError
     case actions.clearError:
         return{
             ...state,
