@@ -25,3 +25,6 @@ input{
     background-color: var(--bg-color);
     color: var(--text-color);
 }
+hr{
+    width: 21.5%;
+}

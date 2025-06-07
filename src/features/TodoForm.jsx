@@ -2,6 +2,12 @@ import { useState, useRef } from "react";
 import TextInputWithLabel from "../shared/TextInputWithLabel.jsx";
 import styled from 'styled-components';
 
+  const StyledButton = styled.button`
+        padding: 6px;
+        border: none;
+        font-style: ${props => props.disabled ? 'italic' : 'normal'};
+    `;
+
 function TodoForm({onAddTodo, isSaving}){
     const [workingTodoTitle, setWorkingTodoTitle] = useState("");
     const inputRef = useRef(null); 
@@ -17,12 +23,6 @@ function TodoForm({onAddTodo, isSaving}){
     await onAddTodo(newTodo);
      setWorkingTodoTitle("");
     }
-
-    const StyledButton = styled.button`
-        padding: 6px;
-        border: none;
-        font-style: ${props => props.disabled ? 'italic' : 'normal'};
-    `;
 
     
     return(
