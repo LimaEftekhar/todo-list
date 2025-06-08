@@ -3,15 +3,23 @@ import TodoList from './features/TodoList/TodoList';
 import TodoForm from './features/TodoForm';
 import TodosViewForm from './features/TodosViewForm';
 import { useReducer, useCallback, useState, useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router';
 import styles from './App.module.css';
 import todosReducer, {
   actions as todoActions,
   initialState as initialTodosState,
+
 }from './reducers/todos.reducer';
+import TodosPage from './pages/TodosPage';
+import Header from './shared/Header';
+import About from './pages/About';
+import NotFound from './pages/NotFound';
 
 
 const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
 const token = `Bearer ${import.meta.env.VITE_PAT}`;
+
+
 
 function App() {
   const [todoState , dispatch] = useReducer(todosReducer, initialTodosState);
@@ -19,6 +27,9 @@ function App() {
   const [sortField, setSortField] = useState('createdTime');
   const [sortDirection, setSortDirection] = useState('desc');
   const [queryString, setQueryString ] = useState('');
+  const location = useLocation();
+  const [pageTitle, setPageTitle] = useState('');
+
   
   const encodeUrl = useCallback(()=> {
     let sortQuery = `sort[0][field]=${sortField}&sort[0][direction]=${sortDirection}`;
@@ -29,6 +40,19 @@ function App() {
     }
     return encodeURI(`${url}?${sortQuery}${searchQuery}`)
   }, [sortField, sortDirection, queryString]);
+
+  useEffect(() => {
+  switch (location.pathname) {
+    case '/':
+      setPageTitle('Todo List');
+      break;
+    case '/about':
+      setPageTitle('About');
+      break;
+    default:
+      setPageTitle('Not Found');
+  }
+}, [location]);
 
   useEffect(() => {
     const fetchTodos = async () => {
@@ -174,16 +198,10 @@ function App() {
 
   return (
     <div className={styles.container}>
-      <h1>My Todos</h1>
-      <TodoForm onAddTodo={addTodo} isSaving={todoState.isSaving} />
-      <TodoList
-        todoList={todoList}
-        isLoading={isLoading}
-        onCompleteTodo={completeTodo}
-        onUpdateTodo={updateTodo}
-      />
-      <hr />
-      < TodosViewForm sortDirection= {sortDirection} setSortDirection= {setSortDirection} sortField={sortField} setSortField={setSortField} queryString ={queryString} setQueryString={setQueryString}/>
+      < Header title={pageTitle}/>
+      
+      
+      
       {errorMessage && (
         <div className={styles.error}>
           <hr />
@@ -191,8 +209,31 @@ function App() {
           <button onClick={() => dispatch({ type: todoActions.clearError })}>Dismiss</button>
         </div>
       )}
+      <Routes>
+        <Route path="/" element={
+          <TodosPage  
+          
+          addTodo ={addTodo}
+          completeTodo = {completeTodo}
+          updateTodo= {updateTodo}
+          sortDirection = {sortDirection}
+          setSortDirection = {setSortDirection}
+          sortField = {sortField}
+          setSortField= {setSortField}
+          queryString = {queryString}
+          setQueryString = {setQueryString}
+          todoState = {todoState}
+         />
+        }
+        />
+        <Route path='/About' element = {<About/>}/>
+        <Route path='*' element = {<NotFound/>}/>
+      </Routes>
+
+      
     </div>
   );
+  
 }
 
 export default App;
