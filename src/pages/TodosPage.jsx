@@ -64,7 +64,7 @@ function TodosPage({
         </button>
 
         <span>
-          Page {currentPage} of {totalPages}
+          Page {currentPage} of {totalPages? totalPages : currentPage}
         </span>
 
         <button onClick={handleNextPage} disabled={currentPage === totalPages}>
